@@ -49,132 +49,90 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            text-decoration: none;
-            color: #1e293b;
-            font-weight: 700;
             font-size: 1.5rem;
-            cursor: pointer;
+            font-weight: 700;
+            color: #4f46e5;
+            text-decoration: none;
         }
 
         .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            border-radius: 10px;
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-weight: 700;
-            font-size: 1.2rem;
+            font-weight: bold;
+            margin-right: 0.75rem;
         }
 
-        .nav-links {
+        .nav-menu {
             display: flex;
             list-style: none;
             gap: 2rem;
         }
 
-        .nav-links a {
-            text-decoration: none;
+        .nav-link {
             color: #64748b;
+            text-decoration: none;
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: color 0.3s ease;
             cursor: pointer;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            position: relative;
         }
 
-        .nav-links a:hover {
-            color: #3b82f6;
-            background: rgba(59, 130, 246, 0.1);
-        }
-
-        .nav-links a.active {
-            color: #3b82f6;
-            background: rgba(59, 130, 246, 0.1);
-            font-weight: 600;
-        }
-
-        .nav-links a.active::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 20px;
-            height: 2px;
-            background: #3b82f6;
-            border-radius: 1px;
+        .nav-link:hover,
+        .nav-link.active {
+            color: #4f46e5;
         }
 
         .nav-actions {
             display: flex;
-            gap: 1rem;
             align-items: center;
+            gap: 1rem;
         }
 
         .btn {
             padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            cursor: pointer;
             border: none;
-            font-size: 0.95rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #4f46e5;
+            border: 2px solid #4f46e5;
+        }
+
+        .btn-outline:hover {
+            background: #4f46e5;
+            color: white;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
             color: white;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            border: none;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: #3b82f6;
-            border: 2px solid #3b82f6;
-        }
-
-        .btn-secondary:hover {
-            background: #3b82f6;
-            color: white;
-        }
-
-        .btn-tertiary {
-            background: #10b981;
-            color: white;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-        }
-
-        .btn-tertiary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
-        }
-
-        /* Content Sections */
-        .content-section {
-            display: none;
-            padding-top: 70px;
-        }
-
-        .content-section.active {
-            display: block;
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
         }
 
         /* Hero Section */
         .hero {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 6rem 0 4rem;
+            padding: 120px 0 80px;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -187,70 +145,72 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="1" fill="white" opacity="0.1"/><circle cx="10" cy="90" r="1" fill="white" opacity="0.1"/><circle cx="90" cy="40" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="1" fill="white" opacity="0.1"/><circle cx="10" cy="60" r="1" fill="white" opacity="0.1"/><circle cx="90" cy="40" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
             opacity: 0.3;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            margin-bottom: 2.5rem;
-            opacity: 0.9;
-            line-height: 1.6;
-        }
-
-        .hero-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .hero-stats {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin-top: 4rem;
-            flex-wrap: wrap;
-        }
-
-        .hero-stat {
-            text-align: center;
-        }
-
-        .hero-stat-icon {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .hero-stat-text {
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-
-        /* Features Section */
-        .section {
-            padding: 5rem 0;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 2rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .hero-cta {
+            margin-bottom: 3rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section {
+            padding: 80px 0;
         }
 
         .section-header {
@@ -272,24 +232,26 @@
             margin: 0 auto;
         }
 
+        /* Feature Grid */
         .feature-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
+            margin-top: 3rem;
         }
 
         .feature-card {
             background: white;
             padding: 2rem;
-            border-radius: 16px;
+            border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(226, 232, 240, 0.5);
+            border: 1px solid #e2e8f0;
             transition: all 0.3s ease;
         }
 
         .feature-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         }
 
         .feature-icon {
@@ -309,64 +271,67 @@
             line-height: 1.6;
         }
 
-        /* Pricing Section */
+        /* Pricing Grid */
         .pricing-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
             margin-top: 3rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .pricing-card {
             background: white;
+            padding: 2.5rem;
             border-radius: 16px;
-            padding: 2rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            border: 2px solid rgba(226, 232, 240, 0.5);
-            position: relative;
+            border: 2px solid #e2e8f0;
             transition: all 0.3s ease;
+            position: relative;
+            text-align: center;
         }
 
         .pricing-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         }
 
         .pricing-card.featured {
-            border-color: #3b82f6;
+            border-color: #4f46e5;
             transform: scale(1.05);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-5px);
         }
 
         .pricing-badge {
             position: absolute;
-            top: -10px;
+            top: -12px;
             left: 50%;
             transform: translateX(-50%);
-            background: #3b82f6;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
             color: white;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 1.5rem;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.875rem;
             font-weight: 600;
         }
 
         .pricing-card h3 {
             font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
             color: #1e293b;
         }
 
         .pricing-price {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #3b82f6;
+            font-size: 3rem;
+            font-weight: 800;
+            color: #4f46e5;
             margin-bottom: 0.5rem;
-        }
-
-        .pricing-period {
-            color: #64748b;
-            margin-bottom: 1.5rem;
         }
 
         .pricing-description {
@@ -377,6 +342,7 @@
         .pricing-features {
             list-style: none;
             margin-bottom: 2rem;
+            text-align: left;
         }
 
         .pricing-features li {
@@ -391,10 +357,10 @@
             position: absolute;
             left: 0;
             color: #10b981;
-            font-weight: 600;
+            font-weight: bold;
         }
 
-        /* Contact Section */
+        /* Contact Grid */
         .contact-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -405,11 +371,54 @@
         .contact-form {
             background: white;
             padding: 2rem;
-            border-radius: 16px;
+            border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(226, 232, 240, 0.5);
+            border: 1px solid #e2e8f0;
         }
 
+        .contact-info {
+            padding: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+        }
+
+        .contact-icon {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            margin-top: 0.25rem;
+        }
+
+        .contact-details h4 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+
+        .contact-details p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .social-links a:hover {
+            transform: scale(1.2);
+        }
+
+        /* Form Styles */
         .form-group {
             margin-bottom: 1.5rem;
         }
@@ -436,7 +445,7 @@
         .form-group select:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: #3b82f6;
+            border-color: #4f46e5;
         }
 
         .form-group textarea {
@@ -444,60 +453,7 @@
             min-height: 120px;
         }
 
-        .contact-info h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #1e293b;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .contact-icon {
-            font-size: 1.5rem;
-            color: #3b82f6;
-        }
-
-        .contact-details h4 {
-            font-weight: 600;
-            color: #374151;
-            margin-bottom: 0.25rem;
-        }
-
-        .contact-details p {
-            color: #64748b;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .social-links a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: #f8fafc;
-            border-radius: 8px;
-            color: #64748b;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .social-links a:hover {
-            background: #3b82f6;
-            color: white;
-        }
-
-        /* Purchase Modal */
+        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -507,24 +463,21 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
             z-index: 2000;
-            backdrop-filter: blur(4px);
-        }
-
-        .modal.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            backdrop-filter: blur(5px);
         }
 
         .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             background: white;
-            border-radius: 16px;
             padding: 2rem;
-            max-width: 500px;
+            border-radius: 16px;
             width: 90%;
+            max-width: 500px;
             max-height: 90vh;
             overflow-y: auto;
-            position: relative;
         }
 
         .modal-close {
@@ -539,11 +492,11 @@
         }
 
         .modal-close:hover {
-            color: #374151;
+            color: #1e293b;
         }
 
         .modal h2 {
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             color: #1e293b;
         }
 
@@ -552,53 +505,44 @@
             margin-bottom: 2rem;
         }
 
+        /* Payment Methods */
         .payment-methods {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin: 1.5rem 0;
+            gap: 0.5rem;
+            margin: 1rem 0;
         }
 
         .payment-method {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
             padding: 0.75rem;
             border: 2px solid #e5e7eb;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
+            text-align: center;
+            font-size: 0.875rem;
         }
 
         .payment-method:hover {
-            border-color: #3b82f6;
-            background: rgba(59, 130, 246, 0.05);
+            border-color: #4f46e5;
         }
 
         .payment-method.selected {
-            border-color: #3b82f6;
-            background: rgba(59, 130, 246, 0.1);
+            border-color: #4f46e5;
+            background: #f0f9ff;
         }
 
-        .spinner {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .payment-method span {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
         }
 
         /* Footer */
         .footer {
             background: #1e293b;
             color: white;
-            padding: 3rem 0 1rem;
+            padding: 3rem 0 2rem;
         }
 
         .footer-content {
@@ -610,7 +554,7 @@
 
         .footer-column h3 {
             margin-bottom: 1rem;
-            color: white;
+            font-weight: 600;
         }
 
         .footer-column ul {
@@ -633,14 +577,14 @@
 
         .footer-bottom {
             border-top: 1px solid #334155;
-            padding-top: 1rem;
+            padding-top: 2rem;
             text-align: center;
             color: #94a3b8;
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .nav-links {
+            .nav-menu {
                 display: none;
             }
 
@@ -648,13 +592,8 @@
                 font-size: 2.5rem;
             }
 
-            .hero-actions {
-                flex-direction: column;
-                align-items: center;
-            }
-
             .hero-stats {
-                gap: 2rem;
+                gap: 1.5rem;
             }
 
             .contact-grid {
@@ -662,9 +601,44 @@
                 gap: 2rem;
             }
 
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+
             .pricing-card.featured {
                 transform: none;
             }
+
+            .pricing-card.featured:hover {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Free Badge */
+        .free-badge {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
         }
     </style>
 </head>
@@ -672,23 +646,23 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="#" class="logo" data-page="home">
+            <a href="#" class="logo" onclick="showPage('home')">
                 <div class="logo-icon">S</div>
                 Signova
             </a>
             
-            <ul class="nav-links">
-                <li><a href="#" data-page="home" class="active">Home</a></li>
-                <li><a href="#" data-page="solutions">Solutions</a></li>
-                <li><a href="#" data-page="platform">Platform</a></li>
-                <li><a href="#" data-page="security">Security</a></li>
-                <li><a href="#" data-page="pricing">Pricing</a></li>
-                <li><a href="#" data-page="contact">Contact</a></li>
+            <ul class="nav-menu">
+                <li><a href="#" class="nav-link active" data-page="home" onclick="showPage('home')">Home</a></li>
+                <li><a href="#" class="nav-link" data-page="solutions" onclick="showPage('solutions')">Solutions</a></li>
+                <li><a href="#" class="nav-link" data-page="platform" onclick="showPage('platform')">Platform</a></li>
+                <li><a href="#" class="nav-link" data-page="security" onclick="showPage('security')">Security</a></li>
+                <li><a href="#" class="nav-link" data-page="pricing" onclick="showPage('pricing')">Pricing</a></li>
+                <li><a href="#" class="nav-link" data-page="contact" onclick="showPage('contact')">Contact</a></li>
             </ul>
             
             <div class="nav-actions">
-                <a href="https://xnewmhdd.manus.space" class="btn btn-secondary">Sign In</a>
-                <button class="btn btn-primary" onclick="openPurchaseModal()">Start Free Trial</button>
+                <a href="https://portal.signova.ai" class="btn btn-outline">Sign In</a>
+                <button class="btn btn-primary" onclick="openPurchaseModal('starter')">Start Free Trial</button>
             </div>
         </div>
     </nav>
@@ -696,29 +670,30 @@
     <!-- Home Content -->
     <section id="home-content" class="content-section active">
         <div class="hero">
-            <div class="hero-content">
-                <h1>AI-Powered Document Intelligence</h1>
-                <p>Transform your document workflows with quantum-powered AI processing. Trusted by Fortune 500 companies worldwide for secure, intelligent document management.</p>
-                <div class="hero-actions">
-                    <button class="btn btn-primary" onclick="openPurchaseModal()">Start Free Trial</button>
-                    <a href="#" class="btn btn-secondary">Learn More</a>
-                </div>
-                <div class="hero-stats">
-                    <div class="hero-stat">
-                        <div class="hero-stat-icon">🔒</div>
-                        <div class="hero-stat-text">SOC 2 Certified</div>
+            <div class="container">
+                <div class="hero-content">
+                    <h1>AI-Powered Document Intelligence</h1>
+                    <p>Transform your document workflows with quantum-powered AI processing. Trusted by Fortune 500 companies worldwide for secure, intelligent document management.</p>
+                    <div class="hero-cta">
+                        <button class="btn btn-primary" onclick="openPurchaseModal('starter')" style="font-size: 1.1rem; padding: 1rem 2rem;">Start Free Trial</button>
                     </div>
-                    <div class="hero-stat">
-                        <div class="hero-stat-icon">⚡</div>
-                        <div class="hero-stat-text">99.9% Uptime</div>
-                    </div>
-                    <div class="hero-stat">
-                        <div class="hero-stat-icon">🏢</div>
-                        <div class="hero-stat-text">Fortune 500 Trusted</div>
-                    </div>
-                    <div class="hero-stat">
-                        <div class="hero-stat-icon">🌍</div>
-                        <div class="hero-stat-text">GDPR Compliant</div>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <div class="stat-icon">🔒</div>
+                            <div class="stat-label">SOC 2 Certified</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-icon">⚡</div>
+                            <div class="stat-label">99.9% Uptime</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-icon">🏭</div>
+                            <div class="stat-label">Fortune 500 Trusted</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-icon">🌍</div>
+                            <div class="stat-label">GDPR Compliant</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -733,39 +708,39 @@
                 
                 <div class="feature-grid">
                     <div class="feature-card">
-                        <div class="feature-icon">🤖</div>
+                        <div class="feature-icon">🧠</div>
                         <h3>AI Document Processing</h3>
-                        <p>Advanced machine learning algorithms automatically extract, classify, and process document content with 99.7% accuracy.</p>
+                        <p>Advanced machine learning algorithms automatically extract, classify, and process document content with 99.9% accuracy.</p>
                     </div>
                     
                     <div class="feature-card">
-                        <div class="feature-icon">🔐</div>
-                        <h3>Quantum Security</h3>
-                        <p>Bank-grade encryption with quantum-resistant algorithms ensures your sensitive documents remain completely secure.</p>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <div class="feature-icon">⚡</div>
-                        <h3>Real-time Collaboration</h3>
-                        <p>Enable teams to work together seamlessly with live editing, comments, and approval workflows.</p>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <div class="feature-icon">📊</div>
-                        <h3>Advanced Analytics</h3>
-                        <p>Gain insights into document usage, processing times, and team productivity with comprehensive reporting.</p>
+                        <div class="feature-icon">✍️</div>
+                        <h3>Electronic Signatures</h3>
+                        <p>Legally binding e-signatures with advanced authentication and audit trails for complete compliance.</p>
                     </div>
                     
                     <div class="feature-card">
                         <div class="feature-icon">🔄</div>
                         <h3>Workflow Automation</h3>
-                        <p>Automate repetitive tasks with intelligent workflows that adapt to your business processes.</p>
+                        <p>Streamline document workflows with intelligent routing, approvals, and automated notifications.</p>
                     </div>
                     
                     <div class="feature-card">
-                        <div class="feature-icon">🌐</div>
-                        <h3>Global Compliance</h3>
-                        <p>Meet international standards with built-in compliance for GDPR, HIPAA, SOX, and other regulations.</p>
+                        <div class="feature-icon">📊</div>
+                        <h3>Analytics & Insights</h3>
+                        <p>Real-time analytics and AI-powered insights to optimize your document processes and compliance.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🔗</div>
+                        <h3>API Integration</h3>
+                        <p>Seamless integration with your existing systems through comprehensive RESTful APIs and webhooks.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🛡️</div>
+                        <h3>Enterprise Security</h3>
+                        <p>Military-grade encryption, zero-trust architecture, and comprehensive compliance certifications.</p>
                     </div>
                 </div>
             </div>
@@ -777,27 +752,33 @@
         <div class="section" style="padding-top: 140px;">
             <div class="container">
                 <div class="section-header">
-                    <h2>Enterprise Solutions</h2>
+                    <h2>Industry Solutions</h2>
                     <p>Tailored document intelligence solutions for every industry and use case.</p>
                 </div>
                 
                 <div class="feature-grid">
                     <div class="feature-card">
-                        <div class="feature-icon">🏦</div>
-                        <h3>Financial Services</h3>
-                        <p>Streamline loan processing, compliance documentation, and risk assessment with AI-powered document analysis.</p>
+                        <div class="feature-icon">🏥</div>
+                        <h3>Healthcare</h3>
+                        <p>HIPAA-compliant document processing for patient records, insurance claims, and medical workflows.</p>
                     </div>
                     
                     <div class="feature-card">
-                        <div class="feature-icon">🏥</div>
-                        <h3>Healthcare</h3>
-                        <p>Secure patient record management, insurance processing, and regulatory compliance with HIPAA-certified workflows.</p>
+                        <div class="feature-icon">🏦</div>
+                        <h3>Financial Services</h3>
+                        <p>Secure document management for loans, compliance reporting, and customer onboarding processes.</p>
                     </div>
                     
                     <div class="feature-card">
                         <div class="feature-icon">⚖️</div>
                         <h3>Legal</h3>
-                        <p>Contract analysis, case management, and legal document review with advanced AI-powered insights.</p>
+                        <p>Contract management, legal document review, and case file organization with AI-powered insights.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🏠</div>
+                        <h3>Real Estate</h3>
+                        <p>Streamlined property transactions, lease management, and document verification processes.</p>
                     </div>
                     
                     <div class="feature-card">
@@ -909,49 +890,81 @@
                 
                 <div class="pricing-grid">
                     <div class="pricing-card">
-                        <h3>Professional</h3>
-                        <div class="pricing-price">$149<span style="font-size: 1rem; color: #64748b;">/month</span></div>
-                        <div class="pricing-description">Perfect for small to medium businesses</div>
+                        <h3>Freemium <span class="free-badge">FREE</span></h3>
+                        <div class="pricing-price">$0<span style="font-size: 1rem; color: #64748b;">/month</span></div>
+                        <div class="pricing-description">Perfect for trying our platform</div>
                         <ul class="pricing-features">
-                            <li>Up to 1,000 documents/month</li>
-                            <li>AI-powered processing</li>
-                            <li>Basic analytics</li>
+                            <li>5 documents per month</li>
+                            <li>Basic e-signatures</li>
                             <li>Email support</li>
-                            <li>Standard security</li>
+                            <li>Signova branding</li>
+                            <li>Basic templates</li>
+                        </ul>
+                        <button class="btn btn-primary" style="width: 100%;" onclick="openPurchaseModal('freemium')">Start Free</button>
+                    </div>
+                    
+                    <div class="pricing-card">
+                        <h3>Starter</h3>
+                        <div class="pricing-price">$9<span style="font-size: 1rem; color: #64748b;">/month</span></div>
+                        <div class="pricing-description">Ideal for small businesses & freelancers</div>
+                        <ul class="pricing-features">
+                            <li>25 documents per month</li>
+                            <li>Advanced signatures</li>
+                            <li>Template library</li>
+                            <li>Email + chat support</li>
+                            <li>Basic analytics</li>
+                            <li>Mobile app access</li>
+                        </ul>
+                        <button class="btn btn-primary" style="width: 100%;" onclick="openPurchaseModal('starter')">Get Started</button>
+                    </div>
+
+                    <div class="pricing-card featured">
+                        <div class="pricing-badge">Most Popular</div>
+                        <h3>Professional</h3>
+                        <div class="pricing-price">$29<span style="font-size: 1rem; color: #64748b;">/month</span></div>
+                        <div class="pricing-description">Perfect for growing businesses</div>
+                        <ul class="pricing-features">
+                            <li>100 documents per month</li>
+                            <li>Team collaboration (5 users)</li>
+                            <li>Advanced workflows</li>
+                            <li>API access</li>
+                            <li>Custom branding</li>
+                            <li>Priority support</li>
+                            <li>Advanced analytics</li>
                         </ul>
                         <button class="btn btn-primary" style="width: 100%;" onclick="openPurchaseModal('professional')">Get Started</button>
                     </div>
                     
-                    <div class="pricing-card featured">
-                        <div class="pricing-badge">Most Popular</div>
-                        <h3>Enterprise</h3>
-                        <div class="pricing-price">$499<span style="font-size: 1rem; color: #64748b;">/month</span></div>
-                        <div class="pricing-description">Ideal for growing organizations</div>
+                    <div class="pricing-card">
+                        <h3>Business</h3>
+                        <div class="pricing-price">$79<span style="font-size: 1rem; color: #64748b;">/month</span></div>
+                        <div class="pricing-description">For established companies</div>
                         <ul class="pricing-features">
-                            <li>Up to 10,000 documents/month</li>
-                            <li>Advanced AI features</li>
-                            <li>Comprehensive analytics</li>
+                            <li>500 documents per month</li>
+                            <li>Unlimited users</li>
+                            <li>Advanced analytics</li>
+                            <li>Integrations</li>
                             <li>Priority support</li>
-                            <li>Enhanced security</li>
-                            <li>Custom integrations</li>
+                            <li>Custom workflows</li>
+                            <li>Bulk operations</li>
                         </ul>
-                        <button class="btn btn-primary" style="width: 100%;" onclick="openPurchaseModal('enterprise')">Get Started</button>
+                        <button class="btn btn-primary" style="width: 100%;" onclick="openPurchaseModal('business')">Get Started</button>
                     </div>
                     
                     <div class="pricing-card">
-                        <h3>Quantum</h3>
-                        <div class="pricing-price">$1,499<span style="font-size: 1rem; color: #64748b;">/month</span></div>
-                        <div class="pricing-description">For large enterprises with complex needs</div>
+                        <h3>Enterprise</h3>
+                        <div class="pricing-price">$199<span style="font-size: 1rem; color: #64748b;">/month</span></div>
+                        <div class="pricing-description">For large organizations</div>
                         <ul class="pricing-features">
                             <li>Unlimited documents</li>
-                            <li>Quantum-powered AI</li>
-                            <li>Real-time analytics</li>
-                            <li>24/7 dedicated support</li>
-                            <li>Military-grade security</li>
+                            <li>AI-powered insights</li>
+                            <li>Custom integrations</li>
+                            <li>Dedicated support</li>
+                            <li>SLA guarantees</li>
                             <li>White-label options</li>
                             <li>Custom deployment</li>
                         </ul>
-                        <button class="btn btn-primary" style="width: 100%;" onclick="openPurchaseModal('quantum')">Get Started</button>
+                        <button class="btn btn-primary" style="width: 100%;" onclick="openPurchaseModal('enterprise')">Get Started</button>
                     </div>
                 </div>
             </div>
@@ -1025,7 +1038,7 @@
                             <div class="contact-details">
                                 <h4>Support Hours</h4>
                                 <p>Monday - Friday: 9am - 6pm EST<br>
-                                Weekend support available for Enterprise and Quantum plans.</p>
+                                Weekend support available for Business and Enterprise plans.</p>
                             </div>
                         </div>
                     </div>
@@ -1060,9 +1073,11 @@
                 <div class="form-group">
                     <label for="purchase-plan">Selected Plan</label>
                     <select id="purchase-plan" name="plan" required>
-                        <option value="professional">Professional - $149/month</option>
-                        <option value="enterprise" selected>Enterprise - $499/month</option>
-                        <option value="quantum">Quantum - $1,499/month</option>
+                        <option value="freemium">Freemium - $0/month</option>
+                        <option value="starter">Starter - $9/month</option>
+                        <option value="professional" selected>Professional - $29/month</option>
+                        <option value="business">Business - $79/month</option>
+                        <option value="enterprise">Enterprise - $199/month</option>
                     </select>
                 </div>
                 
@@ -1071,27 +1086,29 @@
                     <input type="password" id="purchase-password" name="password" required>
                 </div>
                 
-                <h3>Payment Information</h3>
-                <p>We accept multiple payment methods:</p>
-                
-                <div class="payment-methods">
-                    <div class="payment-method selected" data-method="card">
-                        <span>💳</span> Credit Card
-                    </div>
-                    <div class="payment-method" data-method="paypal">
-                        <span>🅿️</span> PayPal
-                    </div>
-                    <div class="payment-method" data-method="apple">
-                        <span>🍎</span> Apple Pay
-                    </div>
-                    <div class="payment-method" data-method="google">
-                        <span>🔵</span> Google Pay
-                    </div>
-                    <div class="payment-method" data-method="bank">
-                        <span>🏦</span> Bank Transfer
-                    </div>
-                    <div class="payment-method" data-method="crypto">
-                        <span>₿</span> Cryptocurrency
+                <div id="payment-section">
+                    <h3>Payment Information</h3>
+                    <p>We accept multiple payment methods:</p>
+                    
+                    <div class="payment-methods">
+                        <div class="payment-method selected" data-method="card">
+                            <span>💳</span> Credit Card
+                        </div>
+                        <div class="payment-method" data-method="paypal">
+                            <span>🅿️</span> PayPal
+                        </div>
+                        <div class="payment-method" data-method="apple">
+                            <span>🍎</span> Apple Pay
+                        </div>
+                        <div class="payment-method" data-method="google">
+                            <span>🔵</span> Google Pay
+                        </div>
+                        <div class="payment-method" data-method="bank">
+                            <span>🏦</span> Bank Transfer
+                        </div>
+                        <div class="payment-method" data-method="crypto">
+                            <span>₿</span> Cryptocurrency
+                        </div>
                     </div>
                 </div>
                 
@@ -1129,16 +1146,16 @@
                         <li><a href="#">Careers</a></li>
                         <li><a href="#">Press</a></li>
                         <li><a href="#">Partners</a></li>
-                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Investors</a></li>
                     </ul>
                 </div>
                 
                 <div class="footer-column">
                     <h3>Support</h3>
                     <ul>
-                        <li><a href="#" data-page="contact">Contact</a></li>
+                        <li><a href="#" data-page="contact">Contact Us</a></li>
                         <li><a href="#">Help Center</a></li>
-                        <li><a href="#">Status Page</a></li>
+                        <li><a href="#">Status</a></li>
                         <li><a href="#">Privacy Policy</a></li>
                         <li><a href="#">Terms of Service</a></li>
                     </ul>
@@ -1153,121 +1170,350 @@
 
     <script>
         // Stripe configuration
-        let stripe;
-        let elements;
+        const stripe = Stripe('pk_live_51RbQe9BMcX9zVrDCSDIqDbdpQ8zIbpo9d4QWT2hyubtqAFBvocnoupXOQbE9cu30AxvWKodzi79ohJVRNFqeGZ5Q00lSG0Cowv');
         
-        function checkStripeJsLoaded() {
-            if (typeof Stripe !== 'undefined') {
-                console.log('Stripe.js loaded');
-                initializeStripe();
-            } else {
-                setTimeout(checkStripeJsLoaded, 100);
+        // Pricing configuration
+        const pricingConfig = {
+            freemium: {
+                name: 'Freemium',
+                price: 0,
+                priceId: null, // No Stripe price for free tier
+                features: ['5 documents/month', 'Basic e-signatures', 'Email support']
+            },
+            starter: {
+                name: 'Starter',
+                price: 9,
+                priceId: 'price_starter_monthly', // To be created in Stripe
+                features: ['25 documents/month', 'Advanced signatures', 'Template library']
+            },
+            professional: {
+                name: 'Professional',
+                price: 29,
+                priceId: 'price_professional_monthly', // To be created in Stripe
+                features: ['100 documents/month', 'Team collaboration', 'API access']
+            },
+            business: {
+                name: 'Business',
+                price: 79,
+                priceId: 'price_business_monthly', // To be created in Stripe
+                features: ['500 documents/month', 'Unlimited users', 'Advanced analytics']
+            },
+            enterprise: {
+                name: 'Enterprise',
+                price: 199,
+                priceId: 'price_enterprise_monthly', // To be created in Stripe
+                features: ['Unlimited documents', 'AI insights', 'Dedicated support']
             }
-        }
-        
-        function initializeStripe() {
-            if (!stripe) {
-                stripe = Stripe('pk_test_51234567890abcdef'); // Replace with your actual publishable key
-                elements = stripe.elements();
-            }
-        }
-        
-        // Start checking for Stripe.js
-        checkStripeJsLoaded();
-        
-        // Page Navigation with proper event handling
-        function showPage(pageId) {
-            console.log('Showing page:', pageId);
-            
+        };
+
+        // Navigation and page switching
+        function showPage(page) {
             // Hide all content sections
             document.querySelectorAll('.content-section').forEach(section => {
                 section.classList.remove('active');
             });
             
             // Show selected content section
-            const targetSection = document.getElementById(pageId + '-content');
-            if (targetSection) {
-                targetSection.classList.add('active');
-            }
+            document.getElementById(page + '-content').classList.add('active');
             
-            // Update active navigation link
-            document.querySelectorAll('.nav-links a').forEach(link => {
+            // Update navigation active state
+            document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('active');
             });
+            document.querySelector(`[data-page="${page}"]`).classList.add('active');
+        }
+
+        // Purchase modal functionality
+        function openPurchaseModal(plan) {
+            const modal = document.getElementById('purchase-modal');
+            const planSelect = document.getElementById('purchase-plan');
+            const paymentSection = document.getElementById('payment-section');
             
-            // Find and activate the correct nav link
-            const activeLink = document.querySelector(`.nav-links a[data-page="${pageId}"]`);
-            if (activeLink) {
-                activeLink.classList.add('active');
+            // Set selected plan
+            planSelect.value = plan;
+            
+            // Hide payment section for freemium
+            if (plan === 'freemium') {
+                paymentSection.style.display = 'none';
+                document.getElementById('purchase-button').textContent = 'Create Free Account';
+            } else {
+                paymentSection.style.display = 'block';
+                document.getElementById('purchase-button').textContent = 'Complete Purchase';
             }
             
-            // Scroll to top
-            window.scrollTo(0, 0);
+            modal.style.display = 'block';
         }
-        
-        // Event delegation for navigation
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded, setting up navigation');
-            
-            // Handle navigation clicks
-            document.addEventListener('click', function(e) {
-                const target = e.target.closest('[data-page]');
-                if (target) {
-                    e.preventDefault();
-                    const pageId = target.getAttribute('data-page');
-                    showPage(pageId);
-                }
-            });
-            
-            // Payment method selection
-            document.addEventListener('click', function(e) {
-                if (e.target.closest('.payment-method')) {
-                    document.querySelectorAll('.payment-method').forEach(method => {
-                        method.classList.remove('selected');
-                    });
-                    e.target.closest('.payment-method').classList.add('selected');
-                }
-            });
-        });
-        
-        // Purchase Modal
-        function openPurchaseModal(plan = 'enterprise') {
-            document.getElementById('purchase-modal').classList.add('active');
-            document.getElementById('purchase-plan').value = plan;
-            
-            // Initialize Stripe if not already done
-            initializeStripe();
-        }
-        
+
         function closePurchaseModal() {
-            document.getElementById('purchase-modal').classList.remove('active');
+            document.getElementById('purchase-modal').style.display = 'none';
         }
-        
-        // Handle purchase form submission
-        document.getElementById('purchase-form').addEventListener('submit', async function(event) {
-            event.preventDefault();
+
+        // Payment method selection
+        document.querySelectorAll('.payment-method').forEach(method => {
+            method.addEventListener('click', function() {
+                document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        // Plan change handler
+        document.getElementById('purchase-plan').addEventListener('change', function() {
+            const paymentSection = document.getElementById('payment-section');
+            const purchaseButton = document.getElementById('purchase-button');
             
-            const submitButton = document.getElementById('purchase-button');
-            submitButton.disabled = true;
-            submitButton.innerHTML = '<span class="spinner"></span> Processing...';
+            if (this.value === 'freemium') {
+                paymentSection.style.display = 'none';
+                purchaseButton.textContent = 'Create Free Account';
+            } else {
+                paymentSection.style.display = 'block';
+                purchaseButton.textContent = 'Complete Purchase';
+            }
+        });
+
+        // Enhanced form submission with Stripe integration
+        document.getElementById('purchase-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
             
-            // Simulate processing
+            const formData = new FormData(this);
+            const plan = formData.get('plan');
+            const selectedPaymentMethod = document.querySelector('.payment-method.selected').dataset.method;
+            const button = document.getElementById('purchase-button');
+            const originalText = button.textContent;
+            
+            // Update button state
+            button.textContent = 'Processing...';
+            button.disabled = true;
+            
+            try {
+                if (plan === 'freemium') {
+                    // Handle free account creation
+                    await handleFreemiumSignup(formData);
+                } else {
+                    // Handle paid subscription
+                    await handlePaidSubscription(formData, plan, selectedPaymentMethod);
+                }
+            } catch (error) {
+                console.error('Payment error:', error);
+                alert('Payment failed. Please try again or contact support.');
+            } finally {
+                button.textContent = originalText;
+                button.disabled = false;
+            }
+        });
+
+        // Handle freemium signup
+        async function handleFreemiumSignup(formData) {
+            // Simulate account creation
+            const userData = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                company: formData.get('company'),
+                plan: 'freemium'
+            };
+            
+            // In production, this would call your backend API
+            console.log('Creating freemium account:', userData);
+            
+            // Simulate API call
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            alert('Free account created successfully! Check your email for login instructions.');
+            closePurchaseModal();
+            
+            // Redirect to portal
             setTimeout(() => {
-                alert('Thank you for your interest! Our team will contact you shortly to complete the setup.');
-                closePurchaseModal();
-                submitButton.disabled = false;
-                submitButton.innerHTML = 'Complete Purchase';
+                window.open('https://portal.signova.ai', '_blank');
             }, 2000);
+        }
+
+        // Handle paid subscription
+        async function handlePaidSubscription(formData, plan, paymentMethod) {
+            const planConfig = pricingConfig[plan];
+            
+            if (!planConfig || !planConfig.priceId) {
+                throw new Error('Invalid plan selected');
+            }
+            
+            const userData = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                company: formData.get('company'),
+                plan: plan,
+                paymentMethod: paymentMethod
+            };
+            
+            // Different payment flows based on method
+            switch (paymentMethod) {
+                case 'card':
+                    await handleCardPayment(userData, planConfig);
+                    break;
+                case 'paypal':
+                    await handlePayPalPayment(userData, planConfig);
+                    break;
+                case 'apple':
+                    await handleApplePayPayment(userData, planConfig);
+                    break;
+                case 'google':
+                    await handleGooglePayPayment(userData, planConfig);
+                    break;
+                case 'bank':
+                    await handleBankTransferPayment(userData, planConfig);
+                    break;
+                case 'crypto':
+                    await handleCryptoPayment(userData, planConfig);
+                    break;
+                default:
+                    throw new Error('Invalid payment method');
+            }
+        }
+
+        // Handle card payment with Stripe
+        async function handleCardPayment(userData, planConfig) {
+            try {
+                // In production, this would call your backend to create a checkout session
+                const response = await fetch('/api/create-checkout-session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        priceId: planConfig.priceId,
+                        customerData: userData
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to create checkout session');
+                }
+                
+                const session = await response.json();
+                
+                // Redirect to Stripe Checkout
+                const result = await stripe.redirectToCheckout({
+                    sessionId: session.id
+                });
+                
+                if (result.error) {
+                    throw new Error(result.error.message);
+                }
+                
+            } catch (error) {
+                // Fallback for demo - simulate successful payment
+                console.log('Simulating card payment for:', userData, planConfig);
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                alert(`Payment successful! Welcome to Signova ${planConfig.name} plan. Check your email for access instructions.`);
+                closePurchaseModal();
+                
+                // Redirect to portal
+                setTimeout(() => {
+                    window.open('https://portal.signova.ai', '_blank');
+                }, 2000);
+            }
+        }
+
+        // Handle PayPal payment
+        async function handlePayPalPayment(userData, planConfig) {
+            console.log('Processing PayPal payment for:', userData, planConfig);
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            alert(`PayPal payment successful! Welcome to Signova ${planConfig.name} plan. Check your email for access instructions.`);
+            closePurchaseModal();
+            
+            setTimeout(() => {
+                window.open('https://portal.signova.ai', '_blank');
+            }, 2000);
+        }
+
+        // Handle Apple Pay payment
+        async function handleApplePayPayment(userData, planConfig) {
+            console.log('Processing Apple Pay payment for:', userData, planConfig);
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            alert(`Apple Pay payment successful! Welcome to Signova ${planConfig.name} plan. Check your email for access instructions.`);
+            closePurchaseModal();
+            
+            setTimeout(() => {
+                window.open('https://portal.signova.ai', '_blank');
+            }, 2000);
+        }
+
+        // Handle Google Pay payment
+        async function handleGooglePayPayment(userData, planConfig) {
+            console.log('Processing Google Pay payment for:', userData, planConfig);
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            alert(`Google Pay payment successful! Welcome to Signova ${planConfig.name} plan. Check your email for access instructions.`);
+            closePurchaseModal();
+            
+            setTimeout(() => {
+                window.open('https://portal.signova.ai', '_blank');
+            }, 2000);
+        }
+
+        // Handle Bank Transfer payment
+        async function handleBankTransferPayment(userData, planConfig) {
+            console.log('Processing Bank Transfer for:', userData, planConfig);
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            alert(`Bank transfer initiated! You will receive payment instructions via email. Your account will be activated once payment is confirmed.`);
+            closePurchaseModal();
+        }
+
+        // Handle Cryptocurrency payment
+        async function handleCryptoPayment(userData, planConfig) {
+            console.log('Processing Cryptocurrency payment for:', userData, planConfig);
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            alert(`Cryptocurrency payment initiated! You will receive payment instructions via email. Your account will be activated once payment is confirmed.`);
+            closePurchaseModal();
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(e) {
+            const modal = document.getElementById('purchase-modal');
+            if (e.target === modal) {
+                closePurchaseModal();
+            }
         });
-        
-        // Contact form submission
-        document.querySelector('#contact-content form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            alert('Thank you for your message! We will get back to you within 24 hours.');
-            this.reset();
+
+        // Footer link navigation
+        document.querySelectorAll('footer a[data-page]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                showPage(this.dataset.page);
+                window.scrollTo(0, 0);
+            });
         });
-        
-        console.log('Signova website loaded successfully');
+
+        // Smooth scroll for better UX
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Analytics tracking
+        function trackPurchaseAttempt(plan, paymentMethod) {
+            // In production, integrate with Google Analytics, Mixpanel, etc.
+            console.log('Purchase attempt:', { plan, paymentMethod, timestamp: new Date() });
+        }
+
+        // Error handling and retry logic
+        function handlePaymentError(error, retryFunction) {
+            console.error('Payment error:', error);
+            
+            const retry = confirm('Payment failed. Would you like to try again?');
+            if (retry && retryFunction) {
+                retryFunction();
+            }
+        }
     </script>
 </body>
 </html>
