@@ -312,9 +312,26 @@
         /* Pricing Section */
         .pricing-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
             margin-top: 3rem;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        @media (max-width: 1200px) {
+            .pricing-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
         }
 
         .pricing-card {
@@ -1162,132 +1179,524 @@
     </footer>
 
     <script>
-        // Stripe configuration
+        // Global error handler
+        window.addEventListener('error', function(e) {
+            console.error('Global error caught:', e.error);
+            // Prevent page crashes from JavaScript errors
+            return true;
+        });
+        
+        // Unhandled promise rejection handler
+        window.addEventListener('unhandledrejection', function(e) {
+            console.error('Unhandled promise rejection:', e.reason);
+            e.preventDefault();
+        });
+        
+        // Utility functions for safe operations
+        const SafeUtils = {
+            // Safe element selection
+            safeQuerySelector: function(selector, context = document) {
+                try {
+                    return context.querySelector(selector);
+                } catch (e) {
+                    console.warn('Invalid selector:', selector, e);
+                    return null;
+                }
+            },
+            
+            // Safe element selection (all)
+            safeQuerySelectorAll: function(selector, context = document) {
+                try {
+                    return context.querySelectorAll(selector) || [];
+                } catch (e) {
+                    console.warn('Invalid selector:', selector, e);
+                    return [];
+                }
+            },
+            
+            // Safe attribute getting
+            safeGetAttribute: function(element, attribute) {
+                try {
+                    return element && element.getAttribute ? element.getAttribute(attribute) : null;
+                } catch (e) {
+                    console.warn('Error getting attribute:', attribute, e);
+                    return null;
+                }
+            },
+            
+            // Safe class operations
+            safeAddClass: function(element, className) {
+                try {
+                    if (element && element.classList && className) {
+                        element.classList.add(className);
+                        return true;
+                    }
+                } catch (e) {
+                    console.warn('Error adding class:', className, e);
+                }
+                return false;
+            },
+            
+            safeRemoveClass: function(element, className) {
+                try {
+                    if (element && element.classList && className) {
+                        element.classList.remove(className);
+                        return true;
+                    }
+                } catch (e) {
+                    console.warn('Error removing class:', className, e);
+                }
+                return false;
+            },
+            
+            // Safe event listener addition
+            safeAddEventListener: function(element, event, handler, options = false) {
+                try {
+                    if (element && element.addEventListener && typeof handler === 'function') {
+                        element.addEventListener(event, handler, options);
+                        return true;
+                    }
+                } catch (e) {
+                    console.warn('Error adding event listener:', event, e);
+                }
+                return false;
+            }
+        };
+        
+        // Stripe configuration with error handling
         let stripe;
         let elements;
         
         function checkStripeJsLoaded() {
-            if (typeof Stripe !== 'undefined') {
-                console.log('Stripe.js loaded');
-                initializeStripe();
-            } else {
-                setTimeout(checkStripeJsLoaded, 100);
+            try {
+                if (typeof Stripe !== 'undefined') {
+                    console.log('Stripe.js loaded');
+                    initializeStripe();
+                } else {
+                    setTimeout(checkStripeJsLoaded, 100);
+                }
+            } catch (e) {
+                console.error('Error checking Stripe.js:', e);
+                setTimeout(checkStripeJsLoaded, 1000); // Retry after longer delay
             }
         }
         
         function initializeStripe() {
-            if (!stripe) {
-                stripe = Stripe('pk_test_51234567890abcdef'); // Replace with your actual publishable key
-                elements = stripe.elements();
+            try {
+                if (!stripe && typeof Stripe !== 'undefined') {
+                    stripe = Stripe('pk_live_51RbQe9BMcX9zVrDCSDIqDbdpQ8zIbpo9d4QWT2hyubtqAFBvocnoupXOQbE9cu30AxvWKodzi79ohJVRNFqeGZ5Q00lSG0Cowv');
+                    if (stripe) {
+                        elements = stripe.elements();
+                        console.log('Stripe initialized successfully');
+                    }
+                }
+            } catch (e) {
+                console.error('Error initializing Stripe:', e);
             }
         }
         
         // Start checking for Stripe.js
         checkStripeJsLoaded();
         
-        // Page Navigation with URL hash persistence
+        // Page Navigation with comprehensive error handling
         function showPage(pageId) {
-            console.log('Showing page:', pageId);
-            
-            // Hide all content sections
-            document.querySelectorAll('.content-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            
-            // Show selected content section
-            const targetSection = document.getElementById(pageId + '-content');
-            if (targetSection) {
-                targetSection.classList.add('active');
+            try {
+                console.log('Showing page:', pageId);
+                
+                if (!pageId || typeof pageId !== 'string') {
+                    console.warn('Invalid pageId provided:', pageId);
+                    pageId = 'home';
+                }
+                
+                // Hide all content sections safely
+                const sections = SafeUtils.safeQuerySelectorAll('.content-section');
+                sections.forEach(section => {
+                    SafeUtils.safeRemoveClass(section, 'active');
+                });
+                
+                // Show selected content section safely
+                const targetSection = SafeUtils.safeQuerySelector('#' + pageId + '-content');
+                if (targetSection) {
+                    SafeUtils.safeAddClass(targetSection, 'active');
+                } else {
+                    console.warn('Target section not found:', pageId + '-content');
+                    // Fallback to home if section doesn't exist
+                    const homeSection = SafeUtils.safeQuerySelector('#home-content');
+                    if (homeSection) {
+                        SafeUtils.safeAddClass(homeSection, 'active');
+                    }
+                }
+                
+                // Update active navigation link safely
+                const navLinks = SafeUtils.safeQuerySelectorAll('.nav-links a');
+                navLinks.forEach(link => {
+                    SafeUtils.safeRemoveClass(link, 'active');
+                });
+                
+                // Find and activate the correct nav link
+                const activeLink = SafeUtils.safeQuerySelector(`.nav-links a[data-page="${pageId}"]`);
+                if (activeLink) {
+                    SafeUtils.safeAddClass(activeLink, 'active');
+                }
+                
+                // Update URL hash for persistence safely
+                try {
+                    if (pageId !== 'home') {
+                        window.history.replaceState(null, null, '#' + pageId);
+                    } else {
+                        window.history.replaceState(null, null, window.location.pathname);
+                    }
+                } catch (e) {
+                    console.warn('Error updating URL hash:', e);
+                }
+                
+                // Scroll to top safely
+                try {
+                    window.scrollTo(0, 0);
+                } catch (e) {
+                    console.warn('Error scrolling to top:', e);
+                }
+                
+            } catch (e) {
+                console.error('Error in showPage:', e);
+                // Fallback: try to show home page
+                try {
+                    const homeSection = SafeUtils.safeQuerySelector('#home-content');
+                    if (homeSection) {
+                        SafeUtils.safeAddClass(homeSection, 'active');
+                    }
+                } catch (fallbackError) {
+                    console.error('Fallback failed:', fallbackError);
+                }
             }
-            
-            // Update active navigation link
-            document.querySelectorAll('.nav-links a').forEach(link => {
-                link.classList.remove('active');
-            });
-            
-            // Find and activate the correct nav link
-            const activeLink = document.querySelector(`.nav-links a[data-page="${pageId}"]`);
-            if (activeLink) {
-                activeLink.classList.add('active');
-            }
-            
-            // Update URL hash for persistence
-            if (pageId !== 'home') {
-                window.history.replaceState(null, null, '#' + pageId);
-            } else {
-                window.history.replaceState(null, null, window.location.pathname);
-            }
-            
-            // Scroll to top
-            window.scrollTo(0, 0);
         }
         
-        // Load page based on URL hash
+        // Load page based on URL hash with error handling
         function loadPageFromHash() {
-            const hash = window.location.hash.substring(1); // Remove #
-            const pageId = hash || 'home'; // Default to home if no hash
-            showPage(pageId);
+            try {
+                const hash = window.location.hash.substring(1); // Remove #
+                const pageId = hash || 'home'; // Default to home if no hash
+                
+                // Validate pageId against known pages
+                const validPages = ['home', 'solutions', 'platform', 'security', 'pricing', 'contact'];
+                const finalPageId = validPages.includes(pageId) ? pageId : 'home';
+                
+                showPage(finalPageId);
+            } catch (e) {
+                console.error('Error loading page from hash:', e);
+                showPage('home'); // Fallback to home
+            }
         }
         
-        // Event delegation for navigation
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded, setting up navigation');
+        // Modular Application Architecture
+        const SignovaApp = {
+            // Configuration
+            config: {
+                validPages: ['home', 'solutions', 'platform', 'security', 'pricing', 'contact'],
+                defaultPage: 'home',
+                stripePublishableKey: 'pk_live_51RbQe9BMcX9zVrDCSDIqDbdpQ8zIbpo9d4QWT2hyubtqAFBvocnoupXOQbE9cu30AxvWKodzi79ohJVRNFqeGZ5Q00lSG0Cowv'
+            },
             
-            // Load the correct page based on URL hash
-            loadPageFromHash();
+            // State management
+            state: {
+                currentPage: 'home',
+                isInitialized: false,
+                stripe: null,
+                elements: null
+            },
             
-            // Listen for hash changes (back/forward buttons)
-            window.addEventListener('hashchange', loadPageFromHash);
-            
-            // Handle navigation clicks
-            document.addEventListener('click', function(e) {
-                const target = e.target.closest('[data-page]');
-                if (target) {
-                    e.preventDefault();
-                    const pageId = target.getAttribute('data-page');
-                    showPage(pageId);
+            // Navigation module
+            navigation: {
+                init: function() {
+                    try {
+                        // Load initial page
+                        SignovaApp.navigation.loadPageFromHash();
+                        
+                        // Set up event listeners
+                        SafeUtils.safeAddEventListener(window, 'hashchange', SignovaApp.navigation.loadPageFromHash);
+                        SafeUtils.safeAddEventListener(document, 'click', SignovaApp.navigation.handleNavigationClick);
+                        
+                        console.log('Navigation module initialized');
+                    } catch (e) {
+                        console.error('Error initializing navigation:', e);
+                    }
+                },
+                
+                handleNavigationClick: function(e) {
+                    try {
+                        const target = e.target.closest('[data-page]');
+                        if (target) {
+                            e.preventDefault();
+                            const pageId = SafeUtils.safeGetAttribute(target, 'data-page');
+                            if (pageId) {
+                                SignovaApp.navigation.showPage(pageId);
+                            }
+                        }
+                    } catch (e) {
+                        console.error('Error handling navigation click:', e);
+                    }
+                },
+                
+                showPage: function(pageId) {
+                    try {
+                        if (!pageId || typeof pageId !== 'string') {
+                            console.warn('Invalid pageId provided:', pageId);
+                            pageId = SignovaApp.config.defaultPage;
+                        }
+                        
+                        // Validate pageId
+                        if (!SignovaApp.config.validPages.includes(pageId)) {
+                            console.warn('Invalid page requested:', pageId);
+                            pageId = SignovaApp.config.defaultPage;
+                        }
+                        
+                        console.log('Showing page:', pageId);
+                        
+                        // Hide all content sections
+                        const sections = SafeUtils.safeQuerySelectorAll('.content-section');
+                        sections.forEach(section => {
+                            SafeUtils.safeRemoveClass(section, 'active');
+                        });
+                        
+                        // Show target section
+                        const targetSection = SafeUtils.safeQuerySelector('#' + pageId + '-content');
+                        if (targetSection) {
+                            SafeUtils.safeAddClass(targetSection, 'active');
+                            SignovaApp.state.currentPage = pageId;
+                        } else {
+                            console.warn('Target section not found:', pageId + '-content');
+                            SignovaApp.navigation.showPage(SignovaApp.config.defaultPage);
+                            return;
+                        }
+                        
+                        // Update navigation links
+                        SignovaApp.navigation.updateActiveNavLink(pageId);
+                        
+                        // Update URL
+                        SignovaApp.navigation.updateURL(pageId);
+                        
+                        // Scroll to top
+                        try {
+                            window.scrollTo(0, 0);
+                        } catch (e) {
+                            console.warn('Error scrolling to top:', e);
+                        }
+                        
+                    } catch (e) {
+                        console.error('Error in showPage:', e);
+                        SignovaApp.navigation.showPage(SignovaApp.config.defaultPage);
+                    }
+                },
+                
+                updateActiveNavLink: function(pageId) {
+                    try {
+                        // Remove active class from all nav links
+                        const navLinks = SafeUtils.safeQuerySelectorAll('.nav-links a');
+                        navLinks.forEach(link => {
+                            SafeUtils.safeRemoveClass(link, 'active');
+                        });
+                        
+                        // Add active class to current nav link
+                        const activeLink = SafeUtils.safeQuerySelector(`.nav-links a[data-page="${pageId}"]`);
+                        if (activeLink) {
+                            SafeUtils.safeAddClass(activeLink, 'active');
+                        }
+                    } catch (e) {
+                        console.error('Error updating active nav link:', e);
+                    }
+                },
+                
+                updateURL: function(pageId) {
+                    try {
+                        if (pageId !== SignovaApp.config.defaultPage) {
+                            window.history.replaceState(null, null, '#' + pageId);
+                        } else {
+                            window.history.replaceState(null, null, window.location.pathname);
+                        }
+                    } catch (e) {
+                        console.warn('Error updating URL:', e);
+                    }
+                },
+                
+                loadPageFromHash: function() {
+                    try {
+                        const hash = window.location.hash.substring(1);
+                        const pageId = hash || SignovaApp.config.defaultPage;
+                        SignovaApp.navigation.showPage(pageId);
+                    } catch (e) {
+                        console.error('Error loading page from hash:', e);
+                        SignovaApp.navigation.showPage(SignovaApp.config.defaultPage);
+                    }
                 }
-            });
+            },
             
-            // Payment method selection
-            document.addEventListener('click', function(e) {
-                if (e.target.closest('.payment-method')) {
-                    document.querySelectorAll('.payment-method').forEach(method => {
-                        method.classList.remove('selected');
-                    });
-                    e.target.closest('.payment-method').classList.add('selected');
+            // Stripe module
+            stripe: {
+                init: function() {
+                    try {
+                        SignovaApp.stripe.checkStripeJsLoaded();
+                    } catch (e) {
+                        console.error('Error initializing Stripe module:', e);
+                    }
+                },
+                
+                checkStripeJsLoaded: function() {
+                    try {
+                        if (typeof Stripe !== 'undefined') {
+                            console.log('Stripe.js loaded');
+                            SignovaApp.stripe.initializeStripe();
+                        } else {
+                            setTimeout(SignovaApp.stripe.checkStripeJsLoaded, 100);
+                        }
+                    } catch (e) {
+                        console.error('Error checking Stripe.js:', e);
+                        setTimeout(SignovaApp.stripe.checkStripeJsLoaded, 1000);
+                    }
+                },
+                
+                initializeStripe: function() {
+                    try {
+                        if (!SignovaApp.state.stripe && typeof Stripe !== 'undefined') {
+                            SignovaApp.state.stripe = Stripe(SignovaApp.config.stripePublishableKey);
+                            if (SignovaApp.state.stripe) {
+                                SignovaApp.state.elements = SignovaApp.state.stripe.elements();
+                                console.log('Stripe initialized successfully');
+                            }
+                        }
+                    } catch (e) {
+                        console.error('Error initializing Stripe:', e);
+                    }
                 }
-            });
-        });
+            },
+            
+            // Modal module
+            modal: {
+                init: function() {
+                    try {
+                        // Set up payment method selection
+                        SafeUtils.safeAddEventListener(document, 'click', SignovaApp.modal.handlePaymentMethodClick);
+                        
+                        // Set up form submission
+                        const purchaseForm = SafeUtils.safeQuerySelector('#purchase-form');
+                        if (purchaseForm) {
+                            SafeUtils.safeAddEventListener(purchaseForm, 'submit', SignovaApp.modal.handleFormSubmit);
+                        }
+                        
+                        console.log('Modal module initialized');
+                    } catch (e) {
+                        console.error('Error initializing modal module:', e);
+                    }
+                },
+                
+                handlePaymentMethodClick: function(e) {
+                    try {
+                        if (e.target.closest('.payment-method')) {
+                            const methods = SafeUtils.safeQuerySelectorAll('.payment-method');
+                            methods.forEach(method => {
+                                SafeUtils.safeRemoveClass(method, 'selected');
+                            });
+                            SafeUtils.safeAddClass(e.target.closest('.payment-method'), 'selected');
+                        }
+                    } catch (e) {
+                        console.error('Error handling payment method click:', e);
+                    }
+                },
+                
+                open: function(plan = 'business') {
+                    try {
+                        const modal = SafeUtils.safeQuerySelector('#purchase-modal');
+                        const planSelect = SafeUtils.safeQuerySelector('#purchase-plan');
+                        
+                        if (modal) {
+                            SafeUtils.safeAddClass(modal, 'active');
+                        }
+                        
+                        if (planSelect && plan) {
+                            planSelect.value = plan;
+                        }
+                        
+                        // Initialize Stripe if not already done
+                        SignovaApp.stripe.initializeStripe();
+                    } catch (e) {
+                        console.error('Error opening modal:', e);
+                    }
+                },
+                
+                close: function() {
+                    try {
+                        const modal = SafeUtils.safeQuerySelector('#purchase-modal');
+                        if (modal) {
+                            SafeUtils.safeRemoveClass(modal, 'active');
+                        }
+                    } catch (e) {
+                        console.error('Error closing modal:', e);
+                    }
+                },
+                
+                handleFormSubmit: function(event) {
+                    try {
+                        event.preventDefault();
+                        
+                        const submitButton = SafeUtils.safeQuerySelector('#purchase-button');
+                        if (submitButton) {
+                            submitButton.disabled = true;
+                            submitButton.innerHTML = '<span class="spinner"></span> Processing...';
+                            
+                            // Simulate processing
+                            setTimeout(() => {
+                                alert('Thank you for your interest! Our team will contact you shortly to complete the setup.');
+                                SignovaApp.modal.close();
+                                submitButton.disabled = false;
+                                submitButton.innerHTML = 'Complete Purchase';
+                            }, 2000);
+                        }
+                    } catch (e) {
+                        console.error('Error handling form submit:', e);
+                    }
+                }
+            },
+            
+            // Main initialization
+            init: function() {
+                try {
+                    if (SignovaApp.state.isInitialized) {
+                        console.warn('SignovaApp already initialized');
+                        return;
+                    }
+                    
+                    console.log('Initializing SignovaApp...');
+                    
+                    // Initialize modules
+                    SignovaApp.navigation.init();
+                    SignovaApp.stripe.init();
+                    SignovaApp.modal.init();
+                    
+                    SignovaApp.state.isInitialized = true;
+                    console.log('SignovaApp initialized successfully');
+                    
+                } catch (e) {
+                    console.error('Error initializing SignovaApp:', e);
+                }
+            }
+        };
         
-        // Purchase Modal
-        function openPurchaseModal(plan = 'business') {
-            document.getElementById('purchase-modal').classList.add('active');
-            document.getElementById('purchase-plan').value = plan;
-            
-            // Initialize Stripe if not already done
-            initializeStripe();
+        // Global functions for backward compatibility
+        function openPurchaseModal(plan) {
+            SignovaApp.modal.open(plan);
         }
         
         function closePurchaseModal() {
-            document.getElementById('purchase-modal').classList.remove('active');
+            SignovaApp.modal.close();
         }
         
-        // Handle purchase form submission
-        document.getElementById('purchase-form').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            
-            const submitButton = document.getElementById('purchase-button');
-            submitButton.disabled = true;
-            submitButton.innerHTML = '<span class="spinner"></span> Processing...';
-            
-            // Simulate processing
-            setTimeout(() => {
-                alert('Thank you for your interest! Our team will contact you shortly to complete the setup.');
-                closePurchaseModal();
-                submitButton.disabled = false;
-                submitButton.innerHTML = 'Complete Purchase';
-            }, 2000);
+        function showPage(pageId) {
+            SignovaApp.navigation.showPage(pageId);
+        }
+        
+        // Initialize application when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, initializing SignovaApp');
+            SignovaApp.init();
         });
         
         // Contact form submission
