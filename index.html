@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signova - AI-Powered Document Intelligence Platform</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Stripe JS -->
+    <script src="https://js.stripe.com/v3/" defer></script>
+    
     <style>
         * {
             margin: 0;
@@ -13,79 +16,101 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: #fff;
+            color: #2c3e50;
+            background: #ffffff;
+            overflow-x: hidden;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header */
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+        /* Navigation */
+        .navbar {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.3);
             z-index: 1000;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 0;
         }
 
-        nav {
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 1rem 0;
+            justify-content: space-between;
+            height: 70px;
+            padding: 0 2rem;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #6366f1;
+            gap: 0.75rem;
             text-decoration: none;
+            color: #1e293b;
+            font-weight: 700;
+            font-size: 1.5rem;
+            cursor: pointer;
         }
 
-        .logo::before {
-            content: "S";
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            color: white;
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 10px;
+            color: white;
             font-weight: 700;
+            font-size: 1.2rem;
         }
 
         .nav-links {
             display: flex;
             list-style: none;
             gap: 2rem;
-            align-items: center;
         }
 
         .nav-links a {
             text-decoration: none;
             color: #64748b;
             font-weight: 500;
-            transition: color 0.3s;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            position: relative;
         }
 
         .nav-links a:hover {
-            color: #6366f1;
+            color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
         }
 
-        .auth-buttons {
+        .nav-links a.active {
+            color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+            font-weight: 600;
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 2px;
+            background: #3b82f6;
+            border-radius: 1px;
+        }
+
+        .nav-actions {
             display: flex;
             gap: 1rem;
             align-items: center;
@@ -93,43 +118,63 @@
 
         .btn {
             padding: 0.75rem 1.5rem;
-            border: none;
             border-radius: 8px;
-            font-weight: 600;
             text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s;
+            font-weight: 600;
+            transition: all 0.3s ease;
             cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: #6366f1;
-            border: 2px solid #6366f1;
-        }
-
-        .btn-outline:hover {
-            background: #6366f1;
-            color: white;
+            border: none;
+            font-size: 0.95rem;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
             color: white;
-            border: none;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #3b82f6;
+            border: 2px solid #3b82f6;
+        }
+
+        .btn-secondary:hover {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-tertiary {
+            background: #10b981;
+            color: white;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-tertiary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            padding-top: 70px;
+        }
+
+        .content-section.active {
+            display: block;
         }
 
         /* Hero Section */
         .hero {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 120px 0 80px;
+            padding: 6rem 0 4rem;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -142,13 +187,16 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="1" fill="white" opacity="0.1"/><circle cx="10" cy="90" r="1" fill="white" opacity="0.1"/><circle cx="90" cy="40" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
             opacity: 0.3;
         }
 
         .hero-content {
             position: relative;
             z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
 
         .hero h1 {
@@ -160,49 +208,49 @@
 
         .hero p {
             font-size: 1.25rem;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
             opacity: 0.9;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            line-height: 1.6;
         }
 
-        .hero-buttons {
+        .hero-actions {
             display: flex;
             gap: 1rem;
             justify-content: center;
             flex-wrap: wrap;
         }
 
-        .trust-indicators {
+        .hero-stats {
             display: flex;
             justify-content: center;
             gap: 3rem;
-            margin-top: 3rem;
+            margin-top: 4rem;
             flex-wrap: wrap;
         }
 
-        .trust-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-stat-text {
+            font-size: 0.9rem;
             opacity: 0.8;
         }
 
-        .trust-icon {
-            width: 24px;
-            height: 24px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* Features Section */
+        .section {
+            padding: 5rem 0;
         }
 
-        /* Features Section */
-        .features {
-            padding: 80px 0;
-            background: #f8fafc;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
 
         .section-header {
@@ -224,7 +272,7 @@
             margin: 0 auto;
         }
 
-        .features-grid {
+        .feature-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
@@ -233,32 +281,26 @@
         .feature-card {
             background: white;
             padding: 2rem;
-            border-radius: 12px;
+            border-radius: 16px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(226, 232, 240, 0.5);
+            transition: all 0.3s ease;
         }
 
         .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
         }
 
         .feature-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-size: 3rem;
             margin-bottom: 1rem;
-            font-size: 1.5rem;
         }
 
         .feature-card h3 {
             font-size: 1.25rem;
             font-weight: 600;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
             color: #1e293b;
         }
 
@@ -267,75 +309,105 @@
             line-height: 1.6;
         }
 
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(5px);
+        /* Pricing Section */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
         }
 
-        .modal-content {
-            background-color: white;
-            margin: 5% auto;
-            padding: 0;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+        .pricing-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 2px solid rgba(226, 232, 240, 0.5);
             position: relative;
-            max-height: 90vh;
-            overflow-y: auto;
+            transition: all 0.3s ease;
         }
 
-        .modal-header {
-            padding: 2rem 2rem 1rem;
-            border-bottom: 1px solid #e2e8f0;
-            position: relative;
+        .pricing-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
         }
 
-        .modal-header h2 {
-            margin: 0;
-            color: #1e293b;
-            font-size: 1.5rem;
+        .pricing-card.featured {
+            border-color: #3b82f6;
+            transform: scale(1.05);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #3b82f6;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
             font-weight: 600;
         }
 
-        .modal-header p {
-            margin: 0.5rem 0 0;
-            color: #64748b;
-            font-size: 0.9rem;
-        }
-
-        .close {
-            position: absolute;
-            right: 1rem;
-            top: 1rem;
-            color: #64748b;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: all 0.3s;
-        }
-
-        .close:hover {
-            background: #f1f5f9;
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
             color: #1e293b;
         }
 
-        .modal-body {
+        .pricing-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #3b82f6;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-period {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+        }
+
+        .pricing-description {
+            color: #64748b;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features li {
+            padding: 0.5rem 0;
+            color: #64748b;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-top: 3rem;
+        }
+
+        .contact-form {
+            background: white;
             padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(226, 232, 240, 0.5);
         }
 
         .form-group {
@@ -345,90 +417,225 @@
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            font-weight: 500;
+            font-weight: 600;
             color: #374151;
         }
 
         .form-group input,
-        .form-group select {
+        .form-group select,
+        .form-group textarea {
             width: 100%;
             padding: 0.75rem;
             border: 2px solid #e5e7eb;
             border-radius: 8px;
             font-size: 1rem;
-            transition: border-color 0.3s;
+            transition: border-color 0.3s ease;
         }
 
         .form-group input:focus,
-        .form-group select:focus {
+        .form-group select:focus,
+        .form-group textarea:focus {
             outline: none;
-            border-color: #6366f1;
+            border-color: #3b82f6;
         }
 
-        .payment-section {
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid #e5e7eb;
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
         }
 
-        .payment-section h3 {
+        .contact-info h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
             margin-bottom: 1rem;
-            color: #374151;
-            font-size: 1.1rem;
+            color: #1e293b;
         }
 
-        .payment-methods {
+        .contact-item {
             display: flex;
+            align-items: center;
             gap: 1rem;
             margin-bottom: 1.5rem;
         }
 
-        .payment-method {
-            flex: 1;
-            padding: 1rem;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
+        .contact-icon {
+            font-size: 1.5rem;
+            color: #3b82f6;
         }
 
-        .payment-method.selected {
-            border-color: #6366f1;
-            background: #f0f9ff;
+        .contact-details h4 {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-details p {
+            color: #64748b;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: #f8fafc;
+            border-radius: 8px;
+            color: #64748b;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: #3b82f6;
+            color: white;
+        }
+
+        /* Purchase Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #64748b;
+        }
+
+        .modal-close:hover {
+            color: #374151;
+        }
+
+        .modal h2 {
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+
+        .modal p {
+            color: #64748b;
+            margin-bottom: 2rem;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         .payment-method:hover {
-            border-color: #6366f1;
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.05);
         }
 
-        .payment-icon {
-            font-size: 2rem;
+        .payment-method.selected {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Footer */
+        .footer {
+            background: #1e293b;
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
             margin-bottom: 0.5rem;
         }
 
-        .btn-submit {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        .footer-column ul li a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column ul li a:hover {
             color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
         }
 
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
-        }
-
-        .btn-submit:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
+        .footer-bottom {
+            border-top: 1px solid #334155;
+            padding-top: 1rem;
+            text-align: center;
+            color: #94a3b8;
         }
 
         /* Responsive Design */
@@ -441,295 +648,626 @@
                 font-size: 2.5rem;
             }
 
-            .hero p {
-                font-size: 1.1rem;
-            }
-
-            .hero-buttons {
+            .hero-actions {
                 flex-direction: column;
                 align-items: center;
             }
 
-            .trust-indicators {
-                gap: 1.5rem;
+            .hero-stats {
+                gap: 2rem;
             }
 
-            .features-grid {
+            .contact-grid {
                 grid-template-columns: 1fr;
+                gap: 2rem;
             }
 
-            .modal-content {
-                margin: 10% auto;
-                width: 95%;
-            }
-
-            .payment-methods {
-                flex-direction: column;
+            .pricing-card.featured {
+                transform: none;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <nav class="container">
-            <a href="#" class="logo">Signova</a>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo" data-page="home">
+                <div class="logo-icon">S</div>
+                Signova
+            </a>
+            
             <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#solutions">Solutions</a></li>
-                <li><a href="#platform">Platform</a></li>
-                <li><a href="#security">Security</a></li>
-                <li><a href="#pricing">Pricing</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#" data-page="home" class="active">Home</a></li>
+                <li><a href="#" data-page="solutions">Solutions</a></li>
+                <li><a href="#" data-page="platform">Platform</a></li>
+                <li><a href="#" data-page="security">Security</a></li>
+                <li><a href="#" data-page="pricing">Pricing</a></li>
+                <li><a href="#" data-page="contact">Contact</a></li>
             </ul>
-            <div class="auth-buttons">
-                <a href="https://portal.signova.ai" class="btn btn-outline">Sign In</a>
-                <button class="btn btn-primary" onclick="openRegistrationModal()">Start Free Trial</button>
+            
+            <div class="nav-actions">
+                <a href="https://xnewmhdd.manus.space" class="btn btn-secondary">Sign In</a>
+                <button class="btn btn-primary" onclick="openPurchaseModal()">Start Free Trial</button>
             </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
 
-    <main>
-        <section class="hero" id="home">
-            <div class="container">
-                <div class="hero-content">
-                    <h1>AI-Powered Document Intelligence</h1>
-                    <p>Transform your document workflows with quantum-powered AI processing. Trusted by Fortune 500 companies worldwide for secure, intelligent document management.</p>
-                    <div class="hero-buttons">
-                        <button class="btn btn-primary" onclick="openRegistrationModal()">Start Free Trial</button>
+    <!-- Home Content -->
+    <section id="home-content" class="content-section active">
+        <div class="hero">
+            <div class="hero-content">
+                <h1>AI-Powered Document Intelligence</h1>
+                <p>Transform your document workflows with quantum-powered AI processing. Trusted by Fortune 500 companies worldwide for secure, intelligent document management.</p>
+                <div class="hero-actions">
+                    <button class="btn btn-primary" onclick="openPurchaseModal()">Start Free Trial</button>
+                    <a href="#" class="btn btn-secondary">Learn More</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-icon">🔒</div>
+                        <div class="hero-stat-text">SOC 2 Certified</div>
                     </div>
-                    <div class="trust-indicators">
-                        <div class="trust-item">
-                            <div class="trust-icon">🔒</div>
-                            <span>SOC 2 Certified</span>
-                        </div>
-                        <div class="trust-item">
-                            <div class="trust-icon">⚡</div>
-                            <span>99.9% Uptime</span>
-                        </div>
-                        <div class="trust-item">
-                            <div class="trust-icon">🏭</div>
-                            <span>Fortune 500 Trusted</span>
-                        </div>
-                        <div class="trust-item">
-                            <div class="trust-icon">🌍</div>
-                            <span>GDPR Compliant</span>
-                        </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-icon">⚡</div>
+                        <div class="hero-stat-text">99.9% Uptime</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-icon">🏢</div>
+                        <div class="hero-stat-text">Fortune 500 Trusted</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-icon">🌍</div>
+                        <div class="hero-stat-text">GDPR Compliant</div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section class="features" id="features">
-        <div id="solutions"></div>
-        <div id="platform"></div>
-        <div id="security"></div>
-        <div id="pricing"></div>
-        <div id="contact"></div>
+        <div class="section">
             <div class="container">
                 <div class="section-header">
                     <h2>Powerful Features</h2>
                     <p>Everything you need to manage, process, and secure your documents with AI-powered intelligence.</p>
                 </div>
-                <div class="features-grid">
+                
+                <div class="feature-grid">
                     <div class="feature-card">
-                        <div class="feature-icon">🧠</div>
+                        <div class="feature-icon">🤖</div>
                         <h3>AI Document Processing</h3>
-                        <p>Advanced machine learning algorithms automatically extract, classify, and process document content with 99.9% accuracy.</p>
+                        <p>Advanced machine learning algorithms automatically extract, classify, and process document content with 99.7% accuracy.</p>
                     </div>
+                    
                     <div class="feature-card">
-                        <div class="feature-icon">✍️</div>
-                        <h3>Electronic Signatures</h3>
-                        <p>Legally binding e-signatures with advanced authentication and audit trails for complete compliance.</p>
+                        <div class="feature-icon">🔐</div>
+                        <h3>Quantum Security</h3>
+                        <p>Bank-grade encryption with quantum-resistant algorithms ensures your sensitive documents remain completely secure.</p>
                     </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Real-time Collaboration</h3>
+                        <p>Enable teams to work together seamlessly with live editing, comments, and approval workflows.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>Advanced Analytics</h3>
+                        <p>Gain insights into document usage, processing times, and team productivity with comprehensive reporting.</p>
+                    </div>
+                    
                     <div class="feature-card">
                         <div class="feature-icon">🔄</div>
                         <h3>Workflow Automation</h3>
-                        <p>Streamline document workflows with intelligent routing, approvals, and automated notifications.</p>
+                        <p>Automate repetitive tasks with intelligent workflows that adapt to your business processes.</p>
                     </div>
+                    
                     <div class="feature-card">
-                        <div class="feature-icon">📊</div>
-                        <h3>Analytics & Insights</h3>
-                        <p>Real-time analytics and AI-powered insights to optimize your document processes and compliance.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🔗</div>
-                        <h3>API Integration</h3>
-                        <p>Seamless integration with your existing systems through comprehensive RESTful APIs and webhooks.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🛡️</div>
-                        <h3>Enterprise Security</h3>
-                        <p>Military-grade encryption, zero-trust architecture, and comprehensive compliance certifications.</p>
+                        <div class="feature-icon">🌐</div>
+                        <h3>Global Compliance</h3>
+                        <p>Meet international standards with built-in compliance for GDPR, HIPAA, SOX, and other regulations.</p>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
-    <!-- Registration Modal -->
-    <div id="registrationModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Complete Your Purchase</h2>
-                <p>Get immediate access to all features</p>
-                <span class="close" onclick="closeRegistrationModal()">&times;</span>
-            </div>
-            <div class="modal-body">
-                <form id="registrationForm">
-                    <div class="form-group">
-                        <label for="fullName">Full Name</label>
-                        <input type="text" id="fullName" name="fullName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Business Email</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="company">Company Name (Optional)</label>
-                        <input type="text" id="company" name="company">
-                    </div>
-                    <div class="form-group">
-                        <label for="plan">Selected Plan</label>
-                        <select id="plan" name="plan" required>
-                            <option value="starter">Starter - $9/month</option>
-                            <option value="professional">Professional - $29/month</option>
-                            <option value="business">Business - $79/month</option>
-                            <option value="enterprise">Enterprise - $199/month</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Create Password</label>
-                        <input type="password" id="password" name="password" required>
+    <!-- Solutions Content -->
+    <section id="solutions-content" class="content-section">
+        <div class="section" style="padding-top: 140px;">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Enterprise Solutions</h2>
+                    <p>Tailored document intelligence solutions for every industry and use case.</p>
+                </div>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🏦</div>
+                        <h3>Financial Services</h3>
+                        <p>Streamline loan processing, compliance documentation, and risk assessment with AI-powered document analysis.</p>
                     </div>
                     
-                    <div class="payment-section">
-                        <h3>Payment Information</h3>
-                        <p>We accept multiple payment methods:</p>
-                        <div class="payment-methods">
-                            <div class="payment-method selected" data-method="card">
-                                <div class="payment-icon">💳</div>
-                                <div>Credit Card</div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏥</div>
+                        <h3>Healthcare</h3>
+                        <p>Secure patient record management, insurance processing, and regulatory compliance with HIPAA-certified workflows.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">⚖️</div>
+                        <h3>Legal</h3>
+                        <p>Contract analysis, case management, and legal document review with advanced AI-powered insights.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🏭</div>
+                        <h3>Manufacturing</h3>
+                        <p>Quality documentation, supply chain management, and compliance tracking for industrial operations.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🏢</div>
+                        <h3>Enterprise</h3>
+                        <p>Scalable document management for large organizations with custom integrations and enterprise security.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🎓</div>
+                        <h3>Education</h3>
+                        <p>Student records, academic documentation, and institutional compliance with secure, accessible workflows.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Platform Content -->
+    <section id="platform-content" class="content-section">
+        <div class="section" style="padding-top: 140px;">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Technology Stack</h2>
+                    <p>Our platform leverages the latest advances in artificial intelligence and quantum computing.</p>
+                </div>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🧠</div>
+                        <h3>Neural Processing</h3>
+                        <p>Advanced neural networks trained on millions of documents for superior accuracy and understanding.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">⚛️</div>
+                        <h3>Quantum Computing</h3>
+                        <p>Quantum-enhanced algorithms for complex document analysis and pattern recognition at unprecedented speed.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🔗</div>
+                        <h3>API Integration</h3>
+                        <p>Seamless integration with existing systems through comprehensive RESTful APIs and webhooks.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">☁️</div>
+                        <h3>Cloud Infrastructure</h3>
+                        <p>Scalable cloud architecture with global deployment and automatic failover capabilities.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security Content -->
+    <section id="security-content" class="content-section">
+        <div class="section" style="padding-top: 140px;">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Enterprise Security</h2>
+                    <p>Military-grade security and compliance for the most sensitive documents and workflows.</p>
+                </div>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🛡️</div>
+                        <h3>End-to-End Encryption</h3>
+                        <p>AES-256 encryption with quantum-resistant algorithms protects data in transit and at rest.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🔐</div>
+                        <h3>Zero-Trust Architecture</h3>
+                        <p>Multi-factor authentication and role-based access controls ensure only authorized users access sensitive data.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">📋</div>
+                        <h3>Compliance Certifications</h3>
+                        <p>SOC 2 Type II, GDPR, HIPAA, and ISO 27001 certified for the highest security standards.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🔍</div>
+                        <h3>Audit Trails</h3>
+                        <p>Comprehensive logging and monitoring with immutable audit trails for complete transparency.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Content -->
+    <section id="pricing-content" class="content-section">
+        <div class="section" style="padding-top: 140px;">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Simple, Transparent Pricing</h2>
+                    <p>Choose the plan that fits your needs. All plans include our core AI features and enterprise security.</p>
+                </div>
+                
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <h3>Professional</h3>
+                        <div class="pricing-price">$149<span style="font-size: 1rem; color: #64748b;">/month</span></div>
+                        <div class="pricing-description">Perfect for small to medium businesses</div>
+                        <ul class="pricing-features">
+                            <li>Up to 1,000 documents/month</li>
+                            <li>AI-powered processing</li>
+                            <li>Basic analytics</li>
+                            <li>Email support</li>
+                            <li>Standard security</li>
+                        </ul>
+                        <button class="btn btn-primary" style="width: 100%;" onclick="openPurchaseModal('professional')">Get Started</button>
+                    </div>
+                    
+                    <div class="pricing-card featured">
+                        <div class="pricing-badge">Most Popular</div>
+                        <h3>Enterprise</h3>
+                        <div class="pricing-price">$499<span style="font-size: 1rem; color: #64748b;">/month</span></div>
+                        <div class="pricing-description">Ideal for growing organizations</div>
+                        <ul class="pricing-features">
+                            <li>Up to 10,000 documents/month</li>
+                            <li>Advanced AI features</li>
+                            <li>Comprehensive analytics</li>
+                            <li>Priority support</li>
+                            <li>Enhanced security</li>
+                            <li>Custom integrations</li>
+                        </ul>
+                        <button class="btn btn-primary" style="width: 100%;" onclick="openPurchaseModal('enterprise')">Get Started</button>
+                    </div>
+                    
+                    <div class="pricing-card">
+                        <h3>Quantum</h3>
+                        <div class="pricing-price">$1,499<span style="font-size: 1rem; color: #64748b;">/month</span></div>
+                        <div class="pricing-description">For large enterprises with complex needs</div>
+                        <ul class="pricing-features">
+                            <li>Unlimited documents</li>
+                            <li>Quantum-powered AI</li>
+                            <li>Real-time analytics</li>
+                            <li>24/7 dedicated support</li>
+                            <li>Military-grade security</li>
+                            <li>White-label options</li>
+                            <li>Custom deployment</li>
+                        </ul>
+                        <button class="btn btn-primary" style="width: 100%;" onclick="openPurchaseModal('quantum')">Get Started</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Content -->
+    <section id="contact-content" class="content-section">
+        <div class="section" style="padding-top: 140px;">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Get in Touch</h2>
+                    <p>We'd love to hear from you. Contact our team today.</p>
+                </div>
+                
+                <div class="contact-grid">
+                    <div class="contact-form">
+                        <h3>Send Us a Message</h3>
+                        <form>
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" name="name" required>
                             </div>
-                            <div class="payment-method" data-method="paypal">
-                                <div class="payment-icon">📱</div>
-                                <div>PayPal</div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">Subject</label>
+                                <select id="subject" name="subject" required>
+                                    <option value="">Select a subject</option>
+                                    <option value="general">General Inquiry</option>
+                                    <option value="sales">Sales Question</option>
+                                    <option value="support">Technical Support</option>
+                                    <option value="partnership">Partnership Opportunity</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea id="message" name="message" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+                        </form>
+                    </div>
+                    
+                    <div class="contact-info">
+                        <h3>Contact Information</h3>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">📧</div>
+                            <div class="contact-details">
+                                <h4>Email</h4>
+                                <p><a href="mailto:info@signova.ai" style="color: #3b82f6; text-decoration: none;">info@signova.ai</a></p>
                             </div>
                         </div>
-                        <button type="submit" class="btn-submit" id="submitBtn">
-                            Complete Purchase & Start Trial
-                        </button>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">🌐</div>
+                            <div class="contact-details">
+                                <h4>Social Media</h4>
+                                <div class="social-links">
+                                    <a href="#" title="LinkedIn">📘</a>
+                                    <a href="#" title="Twitter">🐦</a>
+                                    <a href="#" title="Facebook">📘</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">🕒</div>
+                            <div class="contact-details">
+                                <h4>Support Hours</h4>
+                                <p>Monday - Friday: 9am - 6pm EST<br>
+                                Weekend support available for Enterprise and Quantum plans.</p>
+                            </div>
+                        </div>
                     </div>
-                </form>
+                </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Purchase Modal -->
+    <div id="purchase-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closePurchaseModal()">×</button>
+            <h2>Complete Your Purchase</h2>
+            <p>Get immediate access to all features</p>
+            
+            <form id="purchase-form">
+                <div class="form-group">
+                    <label for="purchase-name">Full Name</label>
+                    <input type="text" id="purchase-name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="purchase-email">Business Email</label>
+                    <input type="email" id="purchase-email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="purchase-company">Company Name (Optional)</label>
+                    <input type="text" id="purchase-company" name="company">
+                </div>
+                
+                <div class="form-group">
+                    <label for="purchase-plan">Selected Plan</label>
+                    <select id="purchase-plan" name="plan" required>
+                        <option value="professional">Professional - $149/month</option>
+                        <option value="enterprise" selected>Enterprise - $499/month</option>
+                        <option value="quantum">Quantum - $1,499/month</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="purchase-password">Create Password</label>
+                    <input type="password" id="purchase-password" name="password" required>
+                </div>
+                
+                <h3>Payment Information</h3>
+                <p>We accept multiple payment methods:</p>
+                
+                <div class="payment-methods">
+                    <div class="payment-method selected" data-method="card">
+                        <span>💳</span> Credit Card
+                    </div>
+                    <div class="payment-method" data-method="paypal">
+                        <span>🅿️</span> PayPal
+                    </div>
+                    <div class="payment-method" data-method="apple">
+                        <span>🍎</span> Apple Pay
+                    </div>
+                    <div class="payment-method" data-method="google">
+                        <span>🔵</span> Google Pay
+                    </div>
+                    <div class="payment-method" data-method="bank">
+                        <span>🏦</span> Bank Transfer
+                    </div>
+                    <div class="payment-method" data-method="crypto">
+                        <span>₿</span> Cryptocurrency
+                    </div>
+                </div>
+                
+                <button type="submit" id="purchase-button" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                    Complete Purchase
+                </button>
+            </form>
         </div>
     </div>
 
-    <script src="https://js.stripe.com/v3/"></script>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Signova</h3>
+                    <p>AI-powered document intelligence platform trusted by Fortune 500 companies worldwide.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Product</h3>
+                    <ul>
+                        <li><a href="#" data-page="solutions">Solutions</a></li>
+                        <li><a href="#" data-page="platform">Platform</a></li>
+                        <li><a href="#" data-page="security">Security</a></li>
+                        <li><a href="#" data-page="pricing">Pricing</a></li>
+                        <li><a href="#">API Documentation</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Partners</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#" data-page="contact">Contact</a></li>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Status Page</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Signova. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
     <script>
-        // Initialize Stripe with LIVE publishable key
-        const stripe = Stripe('pk_live_51RbQe9BMcX9zVrDCSDIqDbdpQ8zIbpo9d4QWT2hyubtqAFBvocnoupXOQbE9cu30AxvWKodzi79ohJVRNFqeGZ5Q00lSG0Cowv');
-
-        // Modal functions
-        function openRegistrationModal() {
-            document.getElementById('registrationModal').style.display = 'block';
-        }
-
-        function closeRegistrationModal() {
-            document.getElementById('registrationModal').style.display = 'none';
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('registrationModal');
-            if (event.target === modal) {
-                closeRegistrationModal();
+        // Stripe configuration
+        let stripe;
+        let elements;
+        
+        function checkStripeJsLoaded() {
+            if (typeof Stripe !== 'undefined') {
+                console.log('Stripe.js loaded');
+                initializeStripe();
+            } else {
+                setTimeout(checkStripeJsLoaded, 100);
             }
         }
-
-        // Payment method selection
-        document.querySelectorAll('.payment-method').forEach(method => {
-            method.addEventListener('click', function() {
-                document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
-                this.classList.add('selected');
+        
+        function initializeStripe() {
+            if (!stripe) {
+                stripe = Stripe('pk_test_51234567890abcdef'); // Replace with your actual publishable key
+                elements = stripe.elements();
+            }
+        }
+        
+        // Start checking for Stripe.js
+        checkStripeJsLoaded();
+        
+        // Page Navigation with proper event handling
+        function showPage(pageId) {
+            console.log('Showing page:', pageId);
+            
+            // Hide all content sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
             });
-        });
-
-        // Form submission with Stripe integration
-        document.getElementById('registrationForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
             
-            const submitBtn = document.getElementById('submitBtn');
-            const originalText = submitBtn.textContent;
-            
-            // Disable button and show loading
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Processing...';
-            
-            try {
-                // Get form data
-                const formData = new FormData(this);
-                const plan = formData.get('plan');
-                
-                // Map plan names to price lookup keys (you'll need to create these in Stripe)
-                const priceMap = {
-                    'starter': 'starter_plan',
-                    'professional': 'professional_plan', 
-                    'business': 'business_plan',
-                    'enterprise': 'enterprise_plan'
-                };
-                
-                // Create checkout session
-                const response = await fetch('http://45.55.212.255:4242/create-checkout-session', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        lookup_key: priceMap[plan],
-                        customer_email: formData.get('email'),
-                        customer_name: formData.get('fullName'),
-                        company_name: formData.get('company')
-                    })
-                });
-                
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                
-                const session = await response.json();
-                
-                // Redirect to Stripe Checkout
-                const result = await stripe.redirectToCheckout({
-                    sessionId: session.id
-                });
-                
-                if (result.error) {
-                    throw new Error(result.error.message);
-                }
-                
-            } catch (error) {
-                console.error('Error:', error);
-                alert('There was an error processing your payment. Please try again.');
-                
-                // Re-enable button
-                submitBtn.disabled = false;
-                submitBtn.textContent = originalText;
+            // Show selected content section
+            const targetSection = document.getElementById(pageId + '-content');
+            if (targetSection) {
+                targetSection.classList.add('active');
             }
-        });
-
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
+            
+            // Update active navigation link
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Find and activate the correct nav link
+            const activeLink = document.querySelector(`.nav-links a[data-page="${pageId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        // Event delegation for navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, setting up navigation');
+            
+            // Handle navigation clicks
+            document.addEventListener('click', function(e) {
+                const target = e.target.closest('[data-page]');
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
+                    e.preventDefault();
+                    const pageId = target.getAttribute('data-page');
+                    showPage(pageId);
+                }
+            });
+            
+            // Payment method selection
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.payment-method')) {
+                    document.querySelectorAll('.payment-method').forEach(method => {
+                        method.classList.remove('selected');
                     });
+                    e.target.closest('.payment-method').classList.add('selected');
                 }
             });
         });
+        
+        // Purchase Modal
+        function openPurchaseModal(plan = 'enterprise') {
+            document.getElementById('purchase-modal').classList.add('active');
+            document.getElementById('purchase-plan').value = plan;
+            
+            // Initialize Stripe if not already done
+            initializeStripe();
+        }
+        
+        function closePurchaseModal() {
+            document.getElementById('purchase-modal').classList.remove('active');
+        }
+        
+        // Handle purchase form submission
+        document.getElementById('purchase-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const submitButton = document.getElementById('purchase-button');
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<span class="spinner"></span> Processing...';
+            
+            // Simulate processing
+            setTimeout(() => {
+                alert('Thank you for your interest! Our team will contact you shortly to complete the setup.');
+                closePurchaseModal();
+                submitButton.disabled = false;
+                submitButton.innerHTML = 'Complete Purchase';
+            }, 2000);
+        });
+        
+        // Contact form submission
+        document.querySelector('#contact-content form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Thank you for your message! We will get back to you within 24 hours.');
+            this.reset();
+        });
+        
+        console.log('Signova website loaded successfully');
     </script>
 </body>
 </html>
