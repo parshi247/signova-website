@@ -1185,7 +1185,7 @@
         // Start checking for Stripe.js
         checkStripeJsLoaded();
         
-        // Page Navigation with proper event handling
+        // Page Navigation with URL hash persistence
         function showPage(pageId) {
             console.log('Showing page:', pageId);
             
@@ -1211,13 +1211,33 @@
                 activeLink.classList.add('active');
             }
             
+            // Update URL hash for persistence
+            if (pageId !== 'home') {
+                window.history.replaceState(null, null, '#' + pageId);
+            } else {
+                window.history.replaceState(null, null, window.location.pathname);
+            }
+            
             // Scroll to top
             window.scrollTo(0, 0);
+        }
+        
+        // Load page based on URL hash
+        function loadPageFromHash() {
+            const hash = window.location.hash.substring(1); // Remove #
+            const pageId = hash || 'home'; // Default to home if no hash
+            showPage(pageId);
         }
         
         // Event delegation for navigation
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM loaded, setting up navigation');
+            
+            // Load the correct page based on URL hash
+            loadPageFromHash();
+            
+            // Listen for hash changes (back/forward buttons)
+            window.addEventListener('hashchange', loadPageFromHash);
             
             // Handle navigation clicks
             document.addEventListener('click', function(e) {
