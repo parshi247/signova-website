@@ -5,6 +5,104 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signova - AI-Powered Document Intelligence Platform</title>
     
+    <!-- Mobile Detection Script -->
+    <script>
+        // Mobile Detection and Redirect Script for Signova
+        (function() {
+            'use strict';
+            
+            // Mobile detection function
+            function isMobileDevice() {
+                const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+                
+                // Check for mobile user agents
+                const mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i;
+                
+                // Check screen width as additional criteria
+                const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                const isMobileScreen = screenWidth <= 768;
+                
+                // Check touch capability
+                const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+                
+                return mobileRegex.test(userAgent) || (isMobileScreen && isTouchDevice);
+            }
+            
+            // Check if already on mobile subdomain
+            function isOnMobileSubdomain() {
+                return window.location.hostname === 'mobile.signova.ai';
+            }
+            
+            // Check if redirect should be skipped (e.g., for testing)
+            function shouldSkipRedirect() {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.has('nomobile') || urlParams.has('desktop');
+            }
+            
+            // Perform mobile redirect
+            function redirectToMobile() {
+                try {
+                    // Preserve current path and query parameters
+                    const currentPath = window.location.pathname;
+                    const currentSearch = window.location.search;
+                    const currentHash = window.location.hash;
+                    
+                    // Construct mobile URL
+                    const mobileUrl = 'https://mobile.signova.ai' + currentPath + currentSearch + currentHash;
+                    
+                    console.log('Redirecting to mobile site:', mobileUrl);
+                    
+                    // Perform redirect
+                    window.location.replace(mobileUrl);
+                } catch (error) {
+                    console.error('Error during mobile redirect:', error);
+                }
+            }
+            
+            // Main mobile detection logic
+            function initMobileDetection() {
+                // Skip if already on mobile subdomain
+                if (isOnMobileSubdomain()) {
+                    console.log('Already on mobile subdomain');
+                    return;
+                }
+                
+                // Skip if redirect is disabled
+                if (shouldSkipRedirect()) {
+                    console.log('Mobile redirect skipped (desktop mode)');
+                    return;
+                }
+                
+                // Check if mobile device
+                if (isMobileDevice()) {
+                    console.log('Mobile device detected, redirecting...');
+                    redirectToMobile();
+                } else {
+                    console.log('Desktop device detected, staying on main site');
+                }
+            }
+            
+            // Initialize when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initMobileDetection);
+            } else {
+                initMobileDetection();
+            }
+            
+            // Also check on window resize (for responsive testing)
+            let resizeTimeout;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(function() {
+                    if (!isOnMobileSubdomain() && !shouldSkipRedirect() && isMobileDevice()) {
+                        redirectToMobile();
+                    }
+                }, 250);
+            });
+            
+        })();
+    </script>
+
     <!-- Stripe JS -->
     <script src="https://js.stripe.com/v3/" defer></script>
     
