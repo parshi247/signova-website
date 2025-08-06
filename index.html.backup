@@ -909,58 +909,49 @@
                 
                 <div class="pricing-grid">
                     <div class="pricing-card">
-                        <h3>Starter</h3>
-                        <div class="pricing-price">$9<span style="font-size: 1rem; color: #64748b;">/month</span></div>
-                        <div class="pricing-description">Perfect for individuals and small teams</div>
-                        <ul class="pricing-features">
-                            <li>Up to 100 documents/month</li>
-                            <li>Basic AI processing</li>
-                            <li>Email support</li>
-                            <li>Standard security</li>
-                        </ul>
-                        <button class="btn btn-primary" style="width: 100%;" onclick="openPurchaseModal('starter')">Get Started</button>
-                    </div>
-                    
-                    <div class="pricing-card">
                         <h3>Professional</h3>
-                        <div class="pricing-price">$29<span style="font-size: 1rem; color: #64748b;">/month</span></div>
-                        <div class="pricing-description">Ideal for growing businesses</div>
+                        <div class="pricing-price">$9<span style="font-size: 1rem; color: #64748b;">/month</span></div>
+                        <div class="pricing-description">Perfect for small to medium businesses</div>
                         <ul class="pricing-features">
                             <li>Up to 1,000 documents/month</li>
-                            <li>Advanced AI processing</li>
-                            <li>Priority support</li>
-                            <li>Enhanced security</li>
+                            <li>AI-powered processing</li>
+                            <li>Basic analytics</li>
+                            <li>Email support</li>
+                            <li>Standard security</li>
                         </ul>
                         <button class="btn btn-primary" style="width: 100%;" onclick="openPurchaseModal('professional')">Get Started</button>
                     </div>
                     
                     <div class="pricing-card featured">
                         <div class="pricing-badge">Most Popular</div>
-                        <h3>Business</h3>
-                        <div class="pricing-price">$79<span style="font-size: 1rem; color: #64748b;">/month</span></div>
-                        <div class="pricing-description">For established companies</div>
+                        <h3>Enterprise</h3>
+                        <div class="pricing-price">$29<span style="font-size: 1rem; color: #64748b;">/month</span></div>
+                        <div class="pricing-description">Ideal for growing organizations</div>
                         <ul class="pricing-features">
                             <li>Up to 10,000 documents/month</li>
-                            <li>Premium AI features</li>
-                            <li>24/7 support</li>
-                            <li>Enterprise security</li>
+                            <li>Advanced AI features</li>
+                            <li>Comprehensive analytics</li>
+                            <li>Priority support</li>
+                            <li>Enhanced security</li>
                             <li>Custom integrations</li>
                         </ul>
-                        <button class="btn btn-primary" style="width: 100%;" onclick="openPurchaseModal('business')">Get Started</button>
+                        <button class="btn btn-primary" style="width: 100%;" onclick="openPurchaseModal('enterprise')">Get Started</button>
                     </div>
                     
                     <div class="pricing-card">
-                        <h3>Enterprise</h3>
-                        <div class="pricing-price">$199<span style="font-size: 1rem; color: #64748b;">/month</span></div>
-                        <div class="pricing-description">For large organizations</div>
+                        <h3>Quantum</h3>
+                        <div class="pricing-price">$79<span style="font-size: 1rem; color: #64748b;">/month</span></div>
+                        <div class="pricing-description">For large enterprises with complex needs</div>
                         <ul class="pricing-features">
                             <li>Unlimited documents</li>
-                            <li>Custom AI models</li>
-                            <li>Dedicated support</li>
+                            <li>Quantum-powered AI</li>
+                            <li>Real-time analytics</li>
+                            <li>24/7 dedicated support</li>
+                            <li>Military-grade security</li>
                             <li>White-label options</li>
                             <li>Custom deployment</li>
                         </ul>
-                        <button class="btn btn-primary" style="width: 100%;" onclick="openPurchaseModal('enterprise')">Get Started</button>
+                        <button class="btn btn-primary" style="width: 100%;" onclick="openPurchaseModal('quantum')">Get Started</button>
                     </div>
                 </div>
             </div>
@@ -1069,10 +1060,9 @@
                 <div class="form-group">
                     <label for="purchase-plan">Selected Plan</label>
                     <select id="purchase-plan" name="plan" required>
-                        <option value="starter">Starter - $9/month</option>
-                        <option value="professional">Professional - $29/month</option>
-                        <option value="business" selected>Business - $79/month</option>
-                        <option value="enterprise">Enterprise - $199/month</option>
+                        <option value="professional">Professional - $9/month</option>
+                        <option value="enterprise" selected>Enterprise - $29/month</option>
+                        <option value="quantum">Quantum - $79/month</option>
                     </select>
                 </div>
                 
@@ -1241,7 +1231,7 @@
         });
         
         // Purchase Modal
-        function openPurchaseModal(plan = 'business') {
+        function openPurchaseModal(plan = 'enterprise') {
             document.getElementById('purchase-modal').classList.add('active');
             document.getElementById('purchase-plan').value = plan;
             
